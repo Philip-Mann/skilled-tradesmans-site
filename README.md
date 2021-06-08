@@ -7,4 +7,4 @@
     "dev": "nodemon server.js"
 ## Now run the dev script
     npm run dev
-- it will console log a clickable link that will take you to home page
+- it will console log a clickable link that will take you to home pagegit
