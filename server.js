@@ -5,7 +5,7 @@ const session = require('express-session');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize'); 
 
 const app = express();
 app.use(express.static('public'));
@@ -68,7 +68,5 @@ app.get('*', (req, res) => {
 // process.env.PORT will allow us to deploy with Heroku
 // will bring clickable link into console when server is running :)
 app.listen(process.env.PORT || 3000, () => {
-    console.log(`
-    http://localhost:3000
-    `);
-});
+    console.log(`http://localhost:3000`);
+});    
