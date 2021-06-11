@@ -5,7 +5,8 @@ const session = require('express-session');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const Sequelize = require('sequelize'); 
+const Sequelize = require('sequelize');
+const { jobs } = require('./models');
 
 const app = express();
 app.use(express.static('public'));
@@ -54,10 +55,29 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
+
+
 app.get('/login', (req, res) => {
     res.render('login')
 })
 
+app.post('/vocations', async (req, res) => {
+  const { jobTitle, jobCat, employer, desc,
+  skilles, location, website } = req.body;
+  const newComany = await jobs.create({
+    jobTitle,
+    jobCat,
+    employer,
+    desc,
+    skilles, 
+    location,
+    website
+  });
+  res.json({
+    "message": "new user created successfuly",
+    "id": newCompany.id
+  }); 
+});
 
 
 // catch all errors
