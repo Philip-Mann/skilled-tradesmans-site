@@ -61,21 +61,26 @@ app.get('/login', (req, res) => {
     res.render('login')
 })
 
+app.get('/vocations', async (req, res) => {
+  const vocations = await jobs.findAll();
+  res.json(vocations);
+});
+
 app.post('/vocations', async (req, res) => {
   const { jobTitle, jobCat, employer, desc,
-  skilles, location, website } = req.body;
-  const newComany = await jobs.create({
+  skills, location, website } = req.body;
+  const newJob = await jobs.create({
     jobTitle,
     jobCat,
     employer,
     desc,
-    skilles, 
+    skills, 
     location,
     website
   });
   res.json({
-    "message": "new user created successfuly",
-    "id": newCompany.id
+    "message": "new job created successfuly",
+    "id": newJob.id
   }); 
 });
 
