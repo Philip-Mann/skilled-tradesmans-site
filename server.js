@@ -61,7 +61,7 @@ app.get('/login', (req, res) => {
     res.render('login')
 })
 
-app.get('/vocations', async (req, res) => {
+app.get('/vocations/:jobCat', async (req, res) => {
   const vocations = await jobs.findAll();
   res.json(vocations);
 });
