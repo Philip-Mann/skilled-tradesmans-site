@@ -6,7 +6,6 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const Sequelize = require('sequelize');
-const pgp = require('pg-promise')();
 const { jobs } = require('./models');
 
 const app = express();
@@ -17,13 +16,7 @@ app.engine('html', es6Renderer);
 app.set('views', 'templates');       
 app.set('view engine', 'html');
 
-const cn = {
-  host: 'localhost',
-  port: 5432,
-  database: 'job_board_dev'
-}
 
-const db = pgp(cn)
 
 //set up session middleware
 const sess = {
@@ -75,59 +68,25 @@ app.get('/vocations', async (req, res) => {
   res.json(vocations);
 });
 
-app.get('/vocations/carpentry', async (req, res) => {
-  let carpentry = await jobs.findAll({
+app.get('/vocations/:jobCat', async (req, res) => {
+  let category = req.params.jobCat;
+  if (category === "hvacr") {
+    category =  "HVACR";
+  } else {
+    category = category.charAt(0).toUpperCase() + category.slice(1);
+  }
+  let results = await jobs.findAll({
     where: {
-      jobCat: 'Carpentry'
+      jobCat: category
+    }
+  });
+  res.render('category', {
+    locals: {
+      results
     }
   })
-  res.json(carpentry);
 });
 
-app.get('/vocations/electrical', async (req, res) => {
-  let electrical = await jobs.findAll({
-    where: {
-      jobCat: 'Electrical'
-    }
-  })
-  res.json(electrical);
-});
-
-app.get('/vocations/hvacr', async (req, res) => {
-  let hvacr = await jobs.findAll({
-    where: {
-      jobCat: 'HVACR'
-    }
-  })
-  res.json(hvacr);
-});
-
-app.get('/vocations/plumbing', async (req, res) => {
-  let plumbing = await jobs.findAll({
-    where: {
-      jobCat: 'Plumbing'
-    }
-  })
-  res.json(plumbing);
-});
-
-app.get('/vocations/transportation', async (req, res) => {
-  let transportation = await jobs.findAll({
-    where: {
-      jobCat: 'Transportation'
-    }
-  })
-  res.json(transportation);
-});
-
-app.get('/vocations/welding', async (req, res) => {
-  let welding = await jobs.findAll({
-    where: {
-      jobCat: 'Welding'
-    }
-  })
-  res.json(welding);
-});
 
 app.post('/vocations', async (req, res) => {
   const { jobTitle, jobCat, employer, desc,
