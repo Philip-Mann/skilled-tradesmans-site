@@ -6,7 +6,6 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const Sequelize = require('sequelize');
-const pgp = require('pg-promise')();
 const { jobs } = require('./models');
 
 const app = express();
@@ -17,13 +16,7 @@ app.engine('html', es6Renderer);
 app.set('views', 'templates');       
 app.set('view engine', 'html');
 
-const cn = {
-  host: 'localhost',
-  port: 5432,
-  database: 'job_board_dev'
-}
 
-const db = pgp(cn)
 
 //set up session middleware
 const sess = {
