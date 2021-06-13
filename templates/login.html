@@ -9,7 +9,46 @@
     <title>Skilled Tradesman - Login</title>
 </head>
 <body>
-
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Skilled Tradesman</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Vocations
+                </a>
+                <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/vocations/carpentry">Carpentry</a></li>
+                  <li><a class="dropdown-item" href="/vocations/electrical">Electrical</a></li>
+                  <li><a class="dropdown-item" href="/vocations/hvacr">HVACR</a></li>
+                  <li><a class="dropdown-item" href="/vocations/transportation">Transportation</a></li>
+                  <li><a class="dropdown-item" href="/vocations/plumbing">Plumbing</a></li>
+                  <li><a class="dropdown-item" href="/vocations/welding">Welding</a></li>
+                </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>  
+    <!-- Main -->
     <div class="button-container d-flex justify-content-center align-content-around" style="margin-top: 10rem;">
         <div class="button-container d-flex  flex-column justify-content-around" style="height: 12rem;">
           <a class="btn btn-danger btn-social btn-google" href="/auth/google" role="button">
@@ -26,6 +65,11 @@
           </a> -->
         </div>
     </div>
-    
+    <!-- Footer -->
+    <footer class="footer py-3 bg-dark fixed-bottom">
+      <div class="container text-center">
+        <span class="text-light">Skilled Tradesman - 2021</span>
+      </div>
+    </footer>
 </body>
 </html>
