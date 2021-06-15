@@ -13,23 +13,24 @@ const fetchImgs = async () => {
         .then( res => res.json())
         .then( images => {
             images.map ( image => {
-                const altPath = image.alt_description
                 const imgPath = image.urls.small
-                replaceImg(altPath, imgPath);
+                const altPath = image.alt_description
+                replaceImg(imgPath, altPath);
+                console.log(image)
             });
         }
 
         )));
-        console.log(response);
+        // console.log(response);
     } catch (error) {
         console.log('ERROR', error);
     }
 }
 fetchImgs();
 
-// const replaceImg = (imgPath, altPath) => {
-//     const target = document.getElementById('randomImg');
-//     target.innerHTML = `
-//         <img src="${imgPath}" alt="${altPath}" />  
-//     `;
-// };
+const replaceImg = (imgPath, altPath) => {
+    const target = document.getElementById('randomImg');
+    target.innerHTML = `
+        <img src="${imgPath}" alt="${altPath}" />  
+    `;
+};
