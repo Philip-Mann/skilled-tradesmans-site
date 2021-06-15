@@ -81,20 +81,20 @@
     </div>
   </nav> 
 
-    ${ results.map( job => `
-    <div class="card-container mt-2 mb-6">
-        <div class="card d-flex flex-row" style="width: 18rem;">
-            <div class="card-body">
-            <h3 class="card-title">${job.employer}</h3>
-            <h6 class="card-subtitle mb-2">${job.jobTitle}</h6>
-            <h6 class="card-subtitle mb-2">${job.location}</h6>
-            <p class="card-text">${job.desc}.</p>
-            <p class="card-text"><b>Skills:</b> ${job.skills}.</p>
-            <a href="${job.website}" class="btn btn-dark">Apply Now</a>
-            </div>
-        </div>
-    </div>  
-    ` ).join("")}
+    ${results.map( job => `
+      <div class="card-container d-flex justify-content-around mr-2 flex-row flex-wrap">
+          <div class="card" style="width: 18rem;">
+              <div class="card-body">
+              <h3 class="card-title" style= "background-color: rgb(56, 56, 56); color: white; width: auto; "> ${job.employer}</h3>
+              <h6 class="card-subtitle mb-2">${job.jobTitle}</h6>
+              <h6 class="card-subtitle mb-2">${job.location}</h6>
+              <p class="card-text">${job.desc}.</p>
+              <p class="card-text"><b>Skills:</b> ${job.skills}.</p>
+              <a href="${job.website}" class="btn btn-dark">Apply Now</a>
+              </div>
+          </div>
+      </div> 
+      ` ).join("")}
 
     <!-- Footer -->
     <footer class="footer py-3 bg-dark fixed-bottom">
