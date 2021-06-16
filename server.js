@@ -51,6 +51,24 @@ app.get('/auth/google/callback',
     // Successful authentication, redirect home.
     res.redirect('/');
 });
+e .
+
+// Attach the passport middleware to express
+app.use(passport.initialize())
+
+// BEGIN these next lines make it work with the session middleware
+app.use(passport.session())
+
+passport.serializeUser(function(user, done) {
+    //What goes INTO the session here; right now it's everything in User
+    done(null, user);
+});
+
+passport.deserializeUser(function(id, done) {
+    done(null, id);
+    //This is looking up the User in the database using the information from the session "id"
+});
+// END these next lines make it work with the session middleware
 
 // Path to homepage
 app.get('/', (req, res) => {
@@ -68,7 +86,7 @@ app.get('/vocations', async (req, res) => {
   res.json(vocations);
 });
 
-app.get('/vocations/:jobCat', async (req, res) => {
+app.get('/vocations/:jobCat', ensureAuthenticated, async (req, res) => {
   let category = req.params.jobCat;
   if (category === "hvacr") {
     category =  "HVACR";
@@ -120,6 +138,13 @@ app.get('/about', (req, res) => {
 app.get('*', (req, res) => {
     res.send('404')
 })
+
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+      return next();
+  }
+  res.redirect('/')
+}
 
 // process.env.PORT will allow us to deploy with Heroku
 // will bring clickable link into console when server is running :)
