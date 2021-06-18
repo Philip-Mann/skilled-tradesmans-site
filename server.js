@@ -34,12 +34,45 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/callback"
   },
+  
   function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
+    console.log(JSON.stringify(profile));
+    console.log("Access Token" + accessToken);
+
+    cb(null, profile)
   }
 ));
+
+// Sign in With Facebook
+passport.use(new FacebookStrategy({
+  clientID: process.env.CLIENT_ID_FB,
+  clientSecret: process.env.CLIENT_SECRET_FB,
+  callbackURL: "http://localhost:3000/auth/facebook/callback"
+},
+function(accessToken, refreshToken, profile, cb) {
+  console.log(JSON.stringify(profile));
+  console.log("Access Token" + accessToken);
+
+  cb(null, profile)
+}
+));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+
+// Path to homepage
+app.get('/', (req, res) => {
+    res.render('home');
+})
 
 //Sign in With Google Callback
 app.get('/auth/google',
@@ -52,11 +85,16 @@ app.get('/auth/google/callback',
     res.redirect('/');
 });
 
-// Path to homepage
-app.get('/', (req, res) => {
-    res.render('home');
-})
-
+// Sign in With Facebook Callback
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+// Sign in With Facebook Callback
+app.get('/auth/facebook/callback',  // or callback
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+});
 
 
 app.get('/login', (req, res) => {
@@ -120,6 +158,8 @@ app.get('/about', (req, res) => {
 app.get('*', (req, res) => {
     res.send('404')
 })
+
+
 
 // process.env.PORT will allow us to deploy with Heroku
 // will bring clickable link into console when server is running :)

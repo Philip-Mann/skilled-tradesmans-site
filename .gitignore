@@ -140,3 +140,4 @@ prep/
 .sass-cache
 connect.lock
 typings
+config.json
