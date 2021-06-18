@@ -34,12 +34,45 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/callback"
   },
+  
   function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
+    console.log(JSON.stringify(profile));
+    console.log("Access Token" + accessToken);
+
+    cb(null, profile)
   }
 ));
+
+// Sign in With Facebook
+passport.use(new FacebookStrategy({
+  clientID: process.env.CLIENT_ID_FB,
+  clientSecret: process.env.CLIENT_SECRET_FB,
+  callbackURL: "http://localhost:3000/auth/facebook/callback"
+},
+function(accessToken, refreshToken, profile, cb) {
+  console.log(JSON.stringify(profile));
+  console.log("Access Token" + accessToken);
+
+  cb(null, profile)
+}
+));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+
+// Path to homepage
+app.get('/', (req, res) => {
+    res.render('home');
+})
 
 //Sign in With Google Callback
 app.get('/auth/google',
@@ -51,30 +84,17 @@ app.get('/auth/google/callback',
     // Successful authentication, redirect home.
     res.redirect('/');
 });
-e .
 
-// Attach the passport middleware to express
-app.use(passport.initialize())
-
-// BEGIN these next lines make it work with the session middleware
-app.use(passport.session())
-
-passport.serializeUser(function(user, done) {
-    //What goes INTO the session here; right now it's everything in User
-    done(null, user);
+// Sign in With Facebook Callback
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+// Sign in With Facebook Callback
+app.get('/auth/facebook/callback',  // or callback
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
 });
-
-passport.deserializeUser(function(id, done) {
-    done(null, id);
-    //This is looking up the User in the database using the information from the session "id"
-});
-// END these next lines make it work with the session middleware
-
-// Path to homepage
-app.get('/', (req, res) => {
-    res.render('home');
-})
-
 
 
 app.get('/login', (req, res) => {
@@ -86,7 +106,7 @@ app.get('/vocations', async (req, res) => {
   res.json(vocations);
 });
 
-app.get('/vocations/:jobCat', ensureAuthenticated, async (req, res) => {
+app.get('/vocations/:jobCat', async (req, res) => {
   let category = req.params.jobCat;
   if (category === "hvacr") {
     category =  "HVACR";
@@ -139,12 +159,7 @@ app.get('*', (req, res) => {
     res.send('404')
 })
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-      return next();
-  }
-  res.redirect('/')
-}
+
 
 // process.env.PORT will allow us to deploy with Heroku
 // will bring clickable link into console when server is running :)
