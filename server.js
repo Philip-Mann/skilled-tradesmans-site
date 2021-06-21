@@ -90,6 +90,10 @@ app.get('/', (req, res) => {
   res.render('home');
 });
 
+app.get('/entry', (req, res) => {
+  res.render('entry')
+});
+
 //Sign in With Google Callback
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile'] }));
