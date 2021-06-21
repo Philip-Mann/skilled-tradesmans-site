@@ -7,6 +7,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const Sequelize = require('sequelize');
 const { jobs } = require('./models');
+const { User } = require('./models');
 
 const app = express();
 app.use(express.static('public'));
@@ -35,9 +36,17 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/callback"
   },
   
-  function(accessToken, refreshToken, profile, cb) {
-    console.log(JSON.stringify(profile));
-    console.log("Access Token" + accessToken);
+  async function(accessToken, refreshToken, profile, cb) {
+    console.log("This is from google *******", JSON.stringify(profile));
+    // console.log("Access Token" + accessToken);
+    let user = await User.findOrCreate({
+      where: {
+        avatarUrl: profile.photos[0].value,
+        loginStrategy: profile.provider,
+        loginStrategyId: profile.id,
+        userName: profile.displayName
+      }
+    });
 
     cb(null, profile)
   }
@@ -49,9 +58,16 @@ passport.use(new FacebookStrategy({
   clientSecret: process.env.CLIENT_SECRET_FB,
   callbackURL: "http://localhost:3000/auth/facebook/callback"
 },
-function(accessToken, refreshToken, profile, cb) {
-  console.log(JSON.stringify(profile));
-  console.log("Access Token" + accessToken);
+async function(accessToken, refreshToken, profile, cb) {
+  console.log("This is from facebook *******", JSON.stringify(profile));
+  // console.log("Access Token" + accessToken);
+  let user = await User.findOrCreate({
+    where: {
+      loginStrategy: profile.provider,
+      loginStrategyId: profile.id,
+      userName: profile.displayName
+    }
+  });
 
   cb(null, profile)
 }
@@ -60,19 +76,19 @@ function(accessToken, refreshToken, profile, cb) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, cb) {
-  cb(null, user);
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
 });
 
-passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
+passport.deserializeUser(function(id, done) {
+  done(null, id);
 });
 
 
 // Path to homepage
 app.get('/', (req, res) => {
-    res.render('home');
-})
+  res.render('home');
+});
 
 //Sign in With Google Callback
 app.get('/auth/google',
