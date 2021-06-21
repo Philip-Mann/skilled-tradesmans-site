@@ -57,7 +57,9 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
-
+app.get('/entry', (req, res) => {
+  res.render('entry')
+})
 
 app.get('/login', (req, res) => {
     res.render('login')
@@ -87,7 +89,6 @@ app.get('/vocations/:jobCat', async (req, res) => {
   })
 });
 
-
 app.post('/vocations', async (req, res) => {
   const { jobTitle, jobCat, employer, desc,
   skills, location, website } = req.body;
@@ -100,8 +101,9 @@ app.post('/vocations', async (req, res) => {
     location,
     website
   });
+  console.log("new job created successfully")
   res.json({
-    "message": "new job created successfuly",
+    "message": "new job created successfully",
     "id": newJob.id
   }); 
 });

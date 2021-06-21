@@ -51,26 +51,26 @@
     </nav>
 
     <div class="form-container-fluid d-flex flex-column" style="border: 1px solid red;">
-        <form class="row g-3 p-2 ">
+        <form id="jobentry-form", class="row g-3 p-2">
             <div class="col-md-3">
                 <label for="employer" class="form-label employer">Employer Name</label>
-                <input type="text" class="form-control employer" id="employer" value="" required>
+                <input type="text" name="employer" class="form-control employer" id="employer" value="" required>
             </div>
             <div class="col-md-3">
                 <label for="jobTitle" class="form-label jobTitle">Position Title</label>
-                <input type="text" class="form-control jobTitle" id="jobTitle" value="" required>
+                <input type="text" name="jobTitle" class="form-control jobTitle" id="jobTitle" value="" required>
             </div>
             <div class="col-md-3">
                 <label for="skills" class="form-label skills">Skills Needed</label>
-                <input type="text" class="form-control skills" id="skills" value="" required>
+                <input type="text" name="skills" class="form-control skills" id="skills" value="" required>
             </div>
             <div class="col-md-3">
                 <label for="desc" class="form-label desc">Job Description</label>
-                <input type="text" class="form-control desc" id="desc" required>
+                <input type="text" name="desc" class="form-control desc" id="desc" required>
             </div>
             <div class="col-md-3">
                 <label for="jobCat" class="form-label jobCat">Category</label>
-                <select class="form-select jobCat" id="jobCat" required>
+                <select class="form-select jobCat" name="jobCat" id="jobCat" required>
                     <option selected disabled value="null">Choose...</option>
                     <option value="Carpentry">Carpentry</option>
                     <option value="Electrical">Electrical</option>
@@ -82,11 +82,11 @@
             </div>
             <div class="col-md-3">
                 <label for="location" class="form-label location">Location</label>
-                <input type="text" class="form-control location" id="location" required>
+                <input type="text" name ="location" class="form-control location" id="location" required>
             </div>
             <div class="col-md-3">
                 <label for="website" class="form-label website">Website</label>
-                <input type="text" class="form-control website" id="website" required>
+                <input type="text" name="website" class="form-control website" id="website" required>
             </div>
             <div class="col-12">
                 <button class="btn btn-primary" type="submit">Submit form</button>
@@ -100,5 +100,38 @@
         <span class="text-light">Skilled Tradesman - 2021</span>
       </div>
     </footer>
+    <!-- <script src="entry.js"></script> -->
+    <script>
+
+        const form = document.getElementById('jobentry-form');
+        form.addEventListener('submit', e => {
+        e.preventDefault();
+        // console.log(e.target);
+        const data = new FormData(e.target);
+        const stringified = stringifyFormData(data);
+        console.log("Form data stringified",stringified);
+        sendData('http://localhost:3000/vocations', stringifyFormData);
+        })
+
+        const stringifyFormData = fd => {
+            const data = {};
+            for(let key of fd.keys()) {
+                data[key] = fd.get(key);
+            }
+            return data;
+        }
+
+        const sendData = async (url, data) => {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+            'Content-Type':  'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        return response;
+        }
+        
+    </script>
 </body>
 </html>
