@@ -90,6 +90,10 @@ app.get('/', (req, res) => {
   res.render('home');
 });
 
+app.get('/entry', (req, res) => {
+  res.render('entry')
+});
+
 //Sign in With Google Callback
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile'] }));
@@ -152,7 +156,7 @@ app.post('/vocations', async (req, res) => {
     location,
     website
   });
-  console.log("new job created successfully")
+  console.log("new job created successfully",req.body)
   res.json({
     "message": "new job created successfully",
     "id": newJob.id
