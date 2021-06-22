@@ -7,7 +7,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const Sequelize = require('sequelize');
 const { jobs } = require('./models');
-const io = require('socket.io')(5000);
+const io = require('socket.io')();
 const users = {}
 const { User } = require('./models');
 
