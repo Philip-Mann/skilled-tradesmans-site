@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "KO",
+    "username": "phil",
     "password": null,
     "database": "job_board_dev",
     "host": "127.0.0.1",

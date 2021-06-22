@@ -11,9 +11,9 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Skilled Tradesman</a>
+        <a class="navbar-brand" href="/">Skilled Tradesman</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -34,6 +34,9 @@
                     <li><a class="dropdown-item" href="/vocations/plumbing">Plumbing</a></li>
                     <li><a class="dropdown-item" href="/vocations/welding">Welding</a></li>
                   </ul>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/entry">Entry</a>
+                  </li>
                   <!-- Modal for Login -->
                   <li class="nav-item">
                       <div class="container">
@@ -73,17 +76,14 @@
                   </li>
             </li>
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
         </div>
       </div>
     </nav> 
     <!-- Main -->
     <main>  
-      <div class="card-container d-flex p-6 justify-content-around flex-wrap" style=" margin-bottom: 20px">
-        <div class="card" style="width: 22rem; margin-top: 20px;" id="trucker">
+      
+      <div class="card-container d-flex p-6 justify-content-around flex-wrap" style=" margin-bottom: 80px">
+        <div class="card" style="width: 22rem; margin-top: 20px;" id="randomImg0">
           <img src="https://images.unsplash.com/photo-1591768793355-74d04bb6608f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2552&q=80" class="card-img-top" alt="...">
           <span></span>
           <div class="card-body">
@@ -92,7 +92,7 @@
           </div>
         </div>
 
-        <div class="card" style="width:22rem; margin-top: 20px;" id="welder">
+        <div class="card" style="width:22rem; margin-top: 20px;" id="randomImg1">
           <img src="https://images.unsplash.com/photo-1507497642206-b5c42198f2df?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2553&q=80" class="card-img-top" alt="...">
           <span></span>
           <div class="card-body">
@@ -101,7 +101,7 @@
           </div>
         </div>
 
-        <div class="card" style="width:22rem; margin-top: 20px;" id="carpenter">
+        <div class="card" style="width:22rem; margin-top: 20px;" id="randomImg2">
           <img src="https://images.unsplash.com/photo-1596496181961-4326beb30551?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2550&q=80" class="card-img-top" alt="...">
           <span></span>
           <div class="card-body">
@@ -110,7 +110,7 @@
           </div>
         </div>
 
-        <div class="card" style="width: 22rem; margin-top: 20px;" id="hvac">
+        <div class="card" style="width: 22rem; margin-top: 20px;" id="randomImg3">
           <img src="https://skillpointe.com/sites/default/files/2021-02/HVAC_Technician.jpg" class="card-img-top" alt="...">
           <span></span>
           <div class="card-body">
@@ -119,7 +119,7 @@
           </div>
         </div>
 
-        <div class="card" style="width: 22rem; margin-top: 20px;" id="electric">
+        <div class="card" style="width: 22rem; margin-top: 20px;" id="randomImg4">
           <img src="https://images.unsplash.com/photo-1555963966-b7ae5404b6ed?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80" class="card-img-top" alt="...">
           <span></span>
           <div class="card-body">
@@ -128,7 +128,7 @@
           </div>
         </div>
 
-        <div class="card" style="width: 22rem; margin-top: 20px;" id="plumbing">
+        <div class="card" style="width: 22rem; margin-top: 20px;" id="randomImg5">
           <img src="https://www.neyerplumbing.com/blog/wp-content/uploads/2020/02/KenNeyer-1024x683.jpg" class="card-img-top" alt="...">
           <span></span>
           <div class="card-body">
@@ -144,6 +144,7 @@
         <span class="text-light">Skilled Tradesman - 2021</span>
       </div>
     </footer>
+    <!-- <script src="./randImg.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>

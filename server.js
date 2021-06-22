@@ -9,7 +9,9 @@ const Sequelize = require('sequelize');
 const { jobs } = require('./models');
 const io = require('socket.io')(5000);
 const users = {}
+const { User } = require('./models');
 
+// Socket.io chat capability
 io.on('connection', socket => {
   socket.on('new-user', name =>{
     users[socket.id] = name;
@@ -50,12 +52,64 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/auth/google/callback"
   },
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
+  
+  async function(accessToken, refreshToken, profile, cb) {
+    console.log("This is from google *******", JSON.stringify(profile));
+    // console.log("Access Token" + accessToken);
+    let user = await User.findOrCreate({
+      where: {
+        avatarUrl: profile.photos[0].value,
+        loginStrategy: profile.provider,
+        loginStrategyId: profile.id,
+        userName: profile.displayName
+      }
     });
+
+    cb(null, profile)
   }
 ));
+
+// Sign in With Facebook
+passport.use(new FacebookStrategy({
+  clientID: process.env.CLIENT_ID_FB,
+  clientSecret: process.env.CLIENT_SECRET_FB,
+  callbackURL: "http://localhost:3000/auth/facebook/callback"
+},
+async function(accessToken, refreshToken, profile, cb) {
+  console.log("This is from facebook *******", JSON.stringify(profile));
+  // console.log("Access Token" + accessToken);
+  let user = await User.findOrCreate({
+    where: {
+      loginStrategy: profile.provider,
+      loginStrategyId: profile.id,
+      userName: profile.displayName
+    }
+  });
+
+  cb(null, profile)
+}
+));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  done(null, id);
+});
+
+
+// Path to homepage
+app.get('/', (req, res) => {
+  res.render('home');
+});
+
+app.get('/entry', (req, res) => {
+  res.render('entry')
+});
 
 //Sign in With Google Callback
 app.get('/auth/google',
@@ -68,12 +122,16 @@ app.get('/auth/google/callback',
     res.redirect('/');
 });
 
-// Path to homepage
-app.get('/', (req, res) => {
-    res.render('home');
-})
-
-
+// Sign in With Facebook Callback
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+// Sign in With Facebook Callback
+app.get('/auth/facebook/callback',  // or callback
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+});
 
 app.get('/login', (req, res) => {
     res.render('login')
@@ -103,7 +161,6 @@ app.get('/vocations/:jobCat', async (req, res) => {
   })
 });
 
-
 app.post('/vocations', async (req, res) => {
   const { jobTitle, jobCat, employer, desc,
   skills, location, website } = req.body;
@@ -116,11 +173,14 @@ app.post('/vocations', async (req, res) => {
     location,
     website
   });
+  console.log("new job created successfully",req.body)
   res.json({
-    "message": "new job created successfuly",
+    "message": "new job created successfully",
     "id": newJob.id
   }); 
 });
+
+
 
 app.get('/login', (req, res) => {
   res.render('login');
@@ -134,6 +194,8 @@ app.get('/about', (req, res) => {
 app.get('*', (req, res) => {
     res.send('404')
 })
+
+
 
 // process.env.PORT will allow us to deploy with Heroku
 // will bring clickable link into console when server is running :)
