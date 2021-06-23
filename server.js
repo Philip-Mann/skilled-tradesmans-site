@@ -111,6 +111,11 @@ app.get('/entry', (req, res) => {
   res.render('entry')
 });
 
+app.get('/entry', (req, res) => {
+  res.render('entry')
+});
+
+
 //Sign in With Google Callback
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile'] }));
@@ -140,6 +145,17 @@ app.get('/login', (req, res) => {
 app.get('/vocations', async (req, res) => {
   const vocations = await jobs.findAll();
   res.json(vocations);
+});
+
+app.delete('/vocations/:id', async (req, res) => {
+  console.log("Delete selected job")
+  const { id } = req.params;
+  const deletedJob = await jobs.destroy({
+      where: {
+          id
+      }
+  });
+  res.json(deletedJob);
 });
 
 app.get('/vocations/:jobCat', async (req, res) => {
@@ -179,8 +195,6 @@ app.post('/vocations', async (req, res) => {
     "id": newJob.id
   }); 
 });
-
-
 
 app.get('/login', (req, res) => {
   res.render('login');
