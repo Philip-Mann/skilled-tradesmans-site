@@ -3,23 +3,23 @@
 // const messageForm = document.getElementById('messageForm')
 // const messageInput = document.getElementById('message-input')
 
-// const name = prompt("Hello Jobseeker! What is your name?")
-// appendMessage('Thanks for joining!');
-// socket.emit('new user', name)
+const name = prompt("Hello Jobseeker! What is your name?")
+appendMessage('Thanks for joining!');
+socket.emit('new user', name)
 
 
-// socket.on('chat-message', data => {
-//     appendMessage(`x${data.name}: ${data.message}`)
-// })
+socket.on('chat-message', data => {
+    appendMessage(`x${data.name}: ${data.message}`)
+})
 
 
 
-// socket.on('user-connected', name => {
-//     appendMessage(`${name} connected`)
-// })
-// socket.on('user-disconnected', name => {
-//     appendMessage(`${name} disconnected`)
-// })
+socket.on('user-connected', name => {
+    appendMessage(`${name} connected`)
+})
+socket.on('user-disconnected', name => {
+    appendMessage(`${name} disconnected`)
+})
 
 // messageForm.addEventListener('submit', e => {
 //     e.preventDefault()
@@ -31,11 +31,11 @@
 
 // // const messageElement = document.createElement('div')
 
-// function appendMessage(message) {
-//     const messageElement = document.createElement('div')
-//     messageElement.innerText = message;
-//     messages.append(messageElement)
-// }
+function appendMessage(message) {
+    const messageElement = document.createElement('div')
+    messageElement.innerText = message;
+    messages.append(messageElement)
+}
 
 // // var socket = io();
 

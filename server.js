@@ -11,17 +11,11 @@ const { jobs } = require('./models');
 const users = {}
 const { User } = require('./models');
 const app = express();
-const { Server }= require("socket.io");
+const { Server } = require("socket.io");
 const http = require('http');
 const server = http.createServer(app);
 const io = new Server(server);
 
-io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-});
 
 app.use(express.static('public'));
 app.use('/', express.static(__dirname + '/public'));
@@ -189,58 +183,27 @@ app.get('/about', (req, res) => {
   res.render('about')
 })
 
-// io.on('connection', (socket) => {
-//   console.log('a user connected');
-//   socket.on('disconnect', () => {
-//     console.log('user disconnected');
-//   });
-//   socket.on('chat message', (msg) => {
-//     console.log('message: ' + msg);
-//     io.emit('chat message', msg);
-//   });
-//   socket.broadcast.emit('hi');
-// });
-
-
-// io.emit('some event', {
-//   someProperty: 'some value',
-//   otherProperty: 'other value'
-// });
-
 app.get('/watercooler', (req, res) => {
-  console.log("Hello Console")
+  // console.log("Hello Console")
   res.render('watercooler');
 });
 
-// io.on('connection', (socket) => {
-//   console.log('a user connected');
-//   socket.on('disconnect', () => {
-//     console.log('user disconnected');
-//   });
-// });
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+  socket.on('chat message', (msg) => {
+    console.log('message: ' + msg);
+    io.emit('chat message', msg);
+  });
+  socket.broadcast.emit('hi');
+});
 
-
-
-
-
-
-// io.on('connection', (socket) => {
-//   console.log('a user connected');
-//   socket.on('disconnect', () => {
-//     console.log('user disconnected');
-//   });
-//   socket.on('chat message', (msg) => {
-//     console.log('message: ' + msg);
-//     io.emit('chat message', msg);
-//   });
-//   socket.broadcast.emit('hi');
-// });
-
-
-// io.emit('some event', {
-//   someProperty: 'some value',
-//   otherProperty: 'other value'
-// });
+io.emit('some event', {
+  someProperty: 'some value',
+  otherProperty: 'other value'
+});
 
 // catch all errors
 app.get('*', (req, res) => {
@@ -251,7 +214,7 @@ app.get('*', (req, res) => {
 
 // process.env.PORT will allow us to deploy with Heroku
 // will bring clickable link into console when server is running :)
-app.listen(process.env.PORT || 3000, () => {
+server.listen(process.env.PORT || 3000, () => {
     console.log(`
     http://localhost:3000`
     );
