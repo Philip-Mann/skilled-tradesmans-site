@@ -7,7 +7,6 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const Sequelize = require('sequelize');
 const { jobs } = require('./models');
-// const io = require('socket.io')();
 const users = {}
 const { User } = require('./models');
 const app = express();
@@ -61,7 +60,9 @@ passport.use(new GoogleStrategy({
     cb(null, profile)
   }
 ));
-
+// ----------------------------------------------------------------------------
+//                                FACEBOOK AUTH                                      
+// ----------------------------------------------------------------------------
 // Sign in With Facebook
 passport.use(new FacebookStrategy({
   clientID: process.env.CLIENT_ID_FB,
@@ -94,13 +95,19 @@ passport.deserializeUser(function(id, done) {
   done(null, id);
 });
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+      return next();
+  }
+  res.redirect('/login')
+}
 
 // Path to homepage
 app.get('/', (req, res) => {
   res.render('home');
 });
 
-app.get('/entry', (req, res) => {
+app.get('/entry', ensureAuthenticated, (req, res) => {
   res.render('entry')
 });
 
@@ -140,18 +147,8 @@ app.get('/vocations', async (req, res) => {
   res.json(vocations);
 });
 
-app.delete('/vocations/:id', async (req, res) => {
-  console.log("Delete selected job")
-  const { id } = req.params;
-  const deletedJob = await jobs.destroy({
-      where: {
-          id
-      }
-  });
-  res.json(deletedJob);
-});
+app.get('/vocations/:jobCat', ensureAuthenticated, async (req, res) => {
 
-app.get('/vocations/:jobCat', async (req, res) => {
   let category = req.params.jobCat;
   
   if (category === "maint") {
@@ -207,13 +204,16 @@ app.get('/about', (req, res) => {
   res.render('about')
 })
 
-app.get('/watercooler', (req, res) => {
+app.get('/watercooler',ensureAuthenticated, (req, res) => {
   // console.log("Hello Console")
   res.render('watercooler');
 });
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+  socket.on('send-chat-message', message => {
+    socket.broadcast.emit('chat-message', { message: message, name: users[socket.id] })
+  })
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });

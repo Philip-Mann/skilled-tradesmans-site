@@ -1,64 +1,99 @@
-
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
-    <style>
-      body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-
-      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
-      #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
-      #input:focus { outline: none; }
-      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
-
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages > li { padding: 0.5rem 1rem; }
-      #messages > li:nth-child(odd) { background: #efefef; }
-    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/dcbcb40c25.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/chat.css" />
+    <title>Water Cooler</title>
   </head>
   <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Skilled Tradesman</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Vocations
+                  </a>
+                  <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/vocations/carpentry">Carpentry</a></li>
+                    <li><a class="dropdown-item" href="/vocations/electrical">Electrical</a></li>
+                    <li><a class="dropdown-item" href="/vocations/hvacr">HVACR</a></li>
+                    <li><a class="dropdown-item" href="/vocations/transportation">Transportation</a></li>
+                    <li><a class="dropdown-item" href="/vocations/plumbing">Plumbing</a></li>
+                    <li><a class="dropdown-item" href="/vocations/welding">Welding</a></li>
+                  </ul>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/entry">Entry</a>
+                  </li>
+                  <!-- Modal for Login -->
+                  <li class="nav-item">
+                      <div class="container">
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="modal fade" id="myModal">
+                                      <div class="modal-dialog modal-sm">
+                                          <div class="modal-content">
+                                              <div class="modal-header">
+                                                  <h1>Please Sign In</h1>
+                                              </div>
+                                              <div class="modal-body">
+                                                  <div class="button-container d-flex  flex-column justify-content-around" style="height: 12rem;">
+                                                      <a class="btn btn-danger btn-social btn-google" href="/auth/google" role="button">
+                                                        <i class="fab fa-google"></i>
+                                                        Sign In With Google
+                                                      </a>
+                                                      <a class="btn btn-primary btn-social btn-facebook" href="/auth/facebook" role="button">
+                                                        <i class="fab fa-facebook"></i>
+                                                        Sign In With Facebook
+                                                      </a>
+                                                  </div>
+                                              </div>
+                                              <div class="modal-footer">
+                                                  Click to exit
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#myModal">Login</a>
+                              </div>
+                          </div>
+                      </div>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/about">About</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/watercooler">Water Cooler</a>
+                  </li>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav> 
+    <!-- Main -->
     <main>
-
-      <ul id="messages"></ul>
+      <ul id="messages" class="mt-3"></ul>
     </main>
-    <footer>
-
+    <!-- Footer -->
+    <footer class="footer py-3 bg-dark fixed-bottom">
       <form id="form" action="">
         <input id="input" autocomplete="off" /><button type="submit">Send</button>
       </form>
     </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.min.js"></script>
-    <script>
-      var socket = io();
-      
-      const name = prompt("Hello Jobseeker! What is your name?")
-      appendMessage('Thanks for joining ' + name);
-      socket.emit('new user', name)
-
-      var form = document.getElementById('form');
-      var input = document.getElementById('input');
-    
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (input.value) {
-          socket.emit('chat message', input.value);
-          input.value = '';
-        }
-      });
-    
-      socket.on('chat message', function (msg) {
-        var item = document.createElement('li');
-        item.textContent = name + ": " + msg;
-        messages.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
-      });
-
-      function appendMessage(message) {
-        const messageElement = document.createElement('li')
-        messageElement.innerText = message;
-        messages.append(messageElement)
-      }
-    </script>
+    <script src="/js/chat.js"></script>
   </body>
 </html>
