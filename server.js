@@ -16,24 +16,15 @@ const http = require('http');
 const server = http.createServer(app);
 const io = new Server(server);
 
-
-// Socket.io chat capability
-io.on('connection', socket => {
-  // socket.on('new-user', name =>{
-  //   users[socket.id] = name;
-  //   socket.broadcast.emit('user-connected', name)
-  // })
-  // socket.on('send-chat-message', message => {
-  //   // socket.broadcast.emit('chat-message', {message: message, name: users[socket.id] })
-  //   socket.broadcast.emit('chat-message', {blah: "blah"})
-  // })
+io.on('connection', (socket) => {
+  console.log('a user connected');
   socket.on('disconnect', () => {
-    socket.broadcast.emit('user-disconnected', users[socket.id])
-    delete users[socket.id]
-  })
-})
+    console.log('user disconnected');
+  });
+});
 
 app.use(express.static('public'));
+app.use('/', express.static(__dirname + '/public'));
 app.use(express.json());
 
 app.engine('html', es6Renderer);     
@@ -198,13 +189,58 @@ app.get('/about', (req, res) => {
   res.render('about')
 })
 
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected');
+//   });
+//   socket.on('chat message', (msg) => {
+//     console.log('message: ' + msg);
+//     io.emit('chat message', msg);
+//   });
+//   socket.broadcast.emit('hi');
+// });
+
+
+// io.emit('some event', {
+//   someProperty: 'some value',
+//   otherProperty: 'other value'
+// });
+
 app.get('/watercooler', (req, res) => {
+  console.log("Hello Console")
   res.render('watercooler');
 });
 
-io.on('connection', (socket) => {
-  console.log('a user connected');
-});
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected');
+//   });
+// });
+
+
+
+
+
+
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected');
+//   });
+//   socket.on('chat message', (msg) => {
+//     console.log('message: ' + msg);
+//     io.emit('chat message', msg);
+//   });
+//   socket.broadcast.emit('hi');
+// });
+
+
+// io.emit('some event', {
+//   someProperty: 'some value',
+//   otherProperty: 'other value'
+// });
 
 // catch all errors
 app.get('*', (req, res) => {
