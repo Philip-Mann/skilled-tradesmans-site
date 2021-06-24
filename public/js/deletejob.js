@@ -14,8 +14,6 @@ const handleDeleteClick = (e) => {
     // }
 }
 
-
-
 jobDelete.forEach(xJob => {
     xJob.addEventListener('click', handleDeleteClick)
 })

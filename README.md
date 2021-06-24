@@ -12,10 +12,17 @@ Take a look at the Houston, Texas area skilled trades job board.  Find job openi
 </div>
 
 ## Coding Challenge:
-- API application with web front end
+- API application with web front end - Server should serve a website that users can interact with (user actions should trigger CRUD operations)
 - PostgreSQL database
-- Application hosted on Heroku
+- Sequelize for ORM
+- Application hosted on Heroku, Glitch + ElephantSQL (easy mode) or Amazon AWS (hard mode)
 - Application meets a business or social need
+- Must have PassportJS Local Strategy for authentication OR Incorporate ONE the following into your backend:
+    1. Twitter
+    2. Facebook
+    3. Google
+    4. GitHub
+    5. or any other OAuth Provider
 
 ## Tools:
 <div align="left">
@@ -82,6 +89,8 @@ Take a look at the Houston, Texas area skilled trades job board.  Find job openi
     npm i express express-es6-template-engine express-session passport passport-facebook passport-google-oauth20 sequelize
     
     npm i -D nodemon sequelize-cli
+
+    npm i socket.io
 ## Go into package.json and paste this in scripts
     "dev": "nodemon server.js"
 ## Now run the dev script

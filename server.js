@@ -160,6 +160,16 @@ app.delete('/vocations/:id', async (req, res) => {
 
 app.get('/vocations/:jobCat', async (req, res) => {
   let category = req.params.jobCat;
+  
+  if (category === "maint") {
+    let results = await jobs.findAll()
+    res.render('maint', {
+      locals: {
+        results
+      }
+    })
+  }
+
   if (category === "hvacr") {
     category =  "HVACR";
   } else {

@@ -37,6 +37,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/entry">Entry</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/vocations/maint">DB Maintenance</a>
+                </li>
                 <!-- Modal for Login -->
                 <li class="nav-item">
                     <div class="container">
@@ -76,10 +79,6 @@
                 </li>
           </li>
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </nav> 
@@ -94,7 +93,6 @@
             <p class="card-text">${job.desc}.</p>
             <p class="card-text"><b>Skills:</b> ${job.skills}.</p>
             <a href="${job.website}" class="btn btn-dark">Apply Now</a>
-            <button type="button" class="btn btn-dark" data-delete-job data-delete-id=${job.id}>Delete</button>
             </div>
         </div>
     </div>  
