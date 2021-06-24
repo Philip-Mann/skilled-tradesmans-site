@@ -111,6 +111,11 @@ app.get('/entry', ensureAuthenticated, (req, res) => {
   res.render('entry')
 });
 
+app.get('/entry', (req, res) => {
+  res.render('entry')
+});
+
+
 //Sign in With Google Callback
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['profile'] }));
@@ -143,7 +148,18 @@ app.get('/vocations', async (req, res) => {
 });
 
 app.get('/vocations/:jobCat', ensureAuthenticated, async (req, res) => {
+
   let category = req.params.jobCat;
+  
+  if (category === "maint") {
+    let results = await jobs.findAll()
+    res.render('maint', {
+      locals: {
+        results
+      }
+    })
+  }
+
   if (category === "hvacr") {
     category =  "HVACR";
   } else {
@@ -179,8 +195,6 @@ app.post('/vocations', async (req, res) => {
     "id": newJob.id
   }); 
 });
-
-
 
 app.get('/login', (req, res) => {
   res.render('login');
