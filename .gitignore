@@ -141,3 +141,4 @@ prep/
 connect.lock
 typings
 config.json
+config.js

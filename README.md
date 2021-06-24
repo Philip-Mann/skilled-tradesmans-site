@@ -36,7 +36,7 @@ Take a look at the Houston, Texas area skilled trades job board.  Find job openi
   <img style="margin: 30px" src="https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg" alt="PostgreSQL" height="45" />
   <img style="margin: 30px" src="https://process.filestackapi.com/cache=expiry:max/resize=width:700/YO2eS6E7QmwNbjzGrNZz" alt="Sequelize" height="45" />
   <img style="margin: 30px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Socket-io.svg/1024px-Socket-io.svg.png" alt="socket" height="45" />
-  <img style="margin: 30px" src="assets/heroku.png" alt="heroku" height="45" />
+  <img style="margin: 30px" src="https://cdn.iconscout.com/icon/free/png-512/heroku-5-569467.png" alt="heroku" height="45" />
   </div> 
 
 1. HTML
@@ -57,7 +57,7 @@ Take a look at the Houston, Texas area skilled trades job board.  Find job openi
 
 # Overview of the Skilled Trades Job Board
 ## Skilled Trades Job Board User Interface
- <img style="margin: 30px" src="assets/sktjb-main.png" alt="heroku" height="200" />
+ <img style="margin: 30px" src="sktjb-main.png" alt="Skilled Trades Main Page" height="200" />
  
   1. The Home page presents pictures representing the six Skilled Trades categories.  The Nav bar at the top of the page provides all of the site functions
   1. The "Skilled Tradesman" item links to the home page.
@@ -79,7 +79,7 @@ Take a look at the Houston, Texas area skilled trades job board.  Find job openi
 
 - [Phil Mann](https://www.linkedin.com/in/philip-mann-b7989b173/)
 - [Ted Wetekamp](https://www.linkedin.com/in/ted-wetekamp-a6a2281/)
-- [Kingsley Onwuharon](https://github.com/kingsonwu)
+- [Kingsley Onwuharon](https://www.linkedin.com/in/konwu/)
 
 
 # Setting up the application locally on your computer?
