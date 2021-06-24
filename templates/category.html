@@ -77,15 +77,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/watercooler">Water Cooler</a>
+                </li>
           </li>
         </ul>
       </div>
     </div>
   </nav> 
 
+  <div class="card-container d-flex flex-wrap justify-content-around align-items-between" style="border: 1px solid red; margin-bottom: 60px;">
     ${ results.map( job => `
-    <div class="card-container mt-2 mb-2 d-flex justify-content-center">
-        <div class="card" style="width: 18rem;">
+        <div class="card mt-2 mb-2" style="width: 18rem;">
             <div class="card-body">
             <h3 class="card-title">${job.employer}</h3>
             <h6 class="card-subtitle mb-2">${job.jobTitle}</h6>
@@ -95,8 +98,8 @@
             <a href="${job.website}" class="btn btn-dark">Apply Now</a>
             </div>
         </div>
+        ` ).join("")}
     </div>  
-    ` ).join("")}
 
     <!-- Footer -->
     <footer class="footer py-3 bg-dark fixed-bottom">

@@ -7,27 +7,18 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const Sequelize = require('sequelize');
 const { jobs } = require('./models');
-const io = require('socket.io')();
+// const io = require('socket.io')();
 const users = {}
 const { User } = require('./models');
-
-// Socket.io chat capability
-io.on('connection', socket => {
-  socket.on('new-user', name =>{
-    users[socket.id] = name;
-    socket.broadcast.emit('user-connected', name)
-  })
-  socket.on('send-chat-message', message => {
-    socket.broadcast.emit('chat-message', {message: message, name: users[socket.id] })
-  })
-  socket.on('disonnect', () => {
-    socket.broadcast.emit('user-disconnected', users[socket.id])
-    delete users[socket.id]
-  })
-})
-
 const app = express();
+const { Server } = require("socket.io");
+const http = require('http');
+const server = http.createServer(app);
+const io = new Server(server);
+
+
 app.use(express.static('public'));
+app.use('/', express.static(__dirname + '/public'));
 app.use(express.json());
 
 app.engine('html', es6Renderer);     
@@ -39,7 +30,9 @@ app.set('view engine', 'html');
 //set up session middleware
 const sess = {
     secret: 'keyboard cat',
-    cookie: {maxAge: 60000}
+    cookie: {maxAge: 60000},
+    resave: false,
+    saveUninitialized: false
 }
 app.use(session(sess));
 
@@ -214,6 +207,28 @@ app.get('/about', (req, res) => {
   res.render('about')
 })
 
+app.get('/watercooler', (req, res) => {
+  // console.log("Hello Console")
+  res.render('watercooler');
+});
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+  socket.on('chat message', (msg) => {
+    console.log('message: ' + msg);
+    io.emit('chat message', msg);
+  });
+  socket.broadcast.emit('hi');
+});
+
+io.emit('some event', {
+  someProperty: 'some value',
+  otherProperty: 'other value'
+});
+
 // catch all errors
 app.get('*', (req, res) => {
     res.send('404')
@@ -223,7 +238,7 @@ app.get('*', (req, res) => {
 
 // process.env.PORT will allow us to deploy with Heroku
 // will bring clickable link into console when server is running :)
-app.listen(process.env.PORT || 3000, () => {
+server.listen(process.env.PORT || 3000, () => {
     console.log(`
     http://localhost:3000`
     );
