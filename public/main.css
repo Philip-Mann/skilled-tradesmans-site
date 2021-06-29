@@ -1,0 +1,11 @@
+body { 
+    padding-top: 65px;
+}
+
+.modal-backdrop {
+    z-index: 1;
+}
+
+.modal-dialog {
+    z-index: 2;
+}

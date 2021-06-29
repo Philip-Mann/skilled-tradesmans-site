@@ -29,9 +29,11 @@ app.set('view engine', 'html');
 //set up session middleware
 const sess = {
     secret: 'keyboard cat',
-    cookie: {maxAge: 60000},
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000
+    },
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true
 }
 app.use(session(sess));
 
@@ -104,15 +106,27 @@ function ensureAuthenticated(req, res, next) {
 
 // Path to homepage
 app.get('/', (req, res) => {
-  res.render('home');
+  res.render('home', {
+    locals: {
+      isAuthenticated: req.isAuthenticated()
+    },
+    partials: {
+      footer: 'partials/footer',
+      header: 'partials/header'
+    }
+  });
 });
 
 app.get('/entry', ensureAuthenticated, (req, res) => {
-  res.render('entry')
-});
-
-app.get('/entry', (req, res) => {
-  res.render('entry')
+  res.render('entry', {
+    locals: {
+      isAuthenticated: req.isAuthenticated()
+    },
+    partials: {
+      footer: 'partials/footer',
+      header: 'partials/header'
+    }
+  });
 });
 
 
@@ -139,8 +153,21 @@ app.get('/auth/facebook/callback',  // or callback
 });
 
 app.get('/login', (req, res) => {
-    res.render('login')
-})
+    res.render('login', {
+      locals: {
+        isAuthenticated: req.isAuthenticated()
+      },
+      partials: {
+        footer: 'partials/footer',
+        header: 'partials/header'
+      }
+    });
+});
+
+app.get('/logout', (req,res) =>{
+  req.logout();
+  res.redirect('/');
+ });
 
 app.get('/vocations', async (req, res) => {
   const vocations = await jobs.findAll();
@@ -155,7 +182,11 @@ app.get('/vocations/:jobCat', ensureAuthenticated, async (req, res) => {
     let results = await jobs.findAll()
     res.render('maint', {
       locals: {
-        results
+        results,
+        isAuthenticated: req.isAuthenticated()
+      }, partials: {
+        footer: 'partials/footer',
+        header: 'partials/header'
       }
     })
   }
@@ -172,7 +203,12 @@ app.get('/vocations/:jobCat', ensureAuthenticated, async (req, res) => {
   });
   res.render('category', {
     locals: {
-      results
+      results,
+      isAuthenticated: req.isAuthenticated()
+    }, 
+    partials: {
+      footer: 'partials/footer',
+      header: 'partials/header'
     }
   })
 });
@@ -196,17 +232,29 @@ app.post('/vocations', async (req, res) => {
   }); 
 });
 
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
 app.get('/about', (req, res) => {
-  res.render('about')
+  res.render('about', {
+    locals: {
+      isAuthenticated: req.isAuthenticated()
+    },
+    partials: {
+      footer: 'partials/footer',
+      header: 'partials/header'
+    }
+  })
 })
 
 app.get('/watercooler',ensureAuthenticated, (req, res) => {
   // console.log("Hello Console")
-  res.render('watercooler');
+  res.render('watercooler', {
+    locals: {
+      isAuthenticated: req.isAuthenticated()
+    },
+    partials: {
+      footer: 'partials/footer',
+      header: 'partials/header'
+    }
+  });
 });
 
 io.on('connection', (socket) => {

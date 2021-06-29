@@ -1,112 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/dcbcb40c25.js" crossorigin="anonymous"></script>
-    <title>Skilled Tradesman - Home</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/dcbcb40c25.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="/main.css" />
+  <title>Skilled Tradesman - Home</title>
 </head>
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Skilled Tradesman</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Vocations
-                </a>
-                <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="/vocations/carpentry">Carpentry</a></li>
-                  <li><a class="dropdown-item" href="/vocations/electrical">Electrical</a></li>
-                  <li><a class="dropdown-item" href="/vocations/hvacr">HVACR</a></li>
-                  <li><a class="dropdown-item" href="/vocations/transportation">Transportation</a></li>
-                  <li><a class="dropdown-item" href="/vocations/plumbing">Plumbing</a></li>
-                  <li><a class="dropdown-item" href="/vocations/welding">Welding</a></li>
-                </ul>
-                <li class="nav-item">
-                  <a class="nav-link" href="/entry">Entry</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/vocations/maint">DB Maintenance</a>
-                </li>
-                <!-- Modal for Login -->
-                <li class="nav-item">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="modal fade" id="myModal">
-                                    <div class="modal-dialog modal-sm">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1>Please Sign In</h1>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="button-container d-flex  flex-column justify-content-around" style="height: 12rem;">
-                                                    <a class="btn btn-danger btn-social btn-google" href="/auth/google" role="button">
-                                                      <i class="fab fa-google"></i>
-                                                      Sign In With Google
-                                                    </a>
-                                                    <a class="btn btn-primary btn-social btn-facebook" href="/auth/facebook" role="button">
-                                                      <i class="fab fa-facebook"></i>
-                                                      Sign In With Facebook
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                Click to exit
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#myModal">Login</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/watercooler">Water Cooler</a>
-                </li>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav> 
+  ${header}
 
-  <div class="card-container d-flex flex-wrap justify-content-around align-items-between" style="border: 1px solid red; margin-bottom: 60px;">
+  <div class="card-container d-flex flex-wrap justify-content-around align-items-between" style="margin-bottom: 60px;">
     ${ results.map( job => `
-        <div class="card mt-2 mb-2" style="width: 18rem;">
-            <div class="card-body">
-            <h3 class="card-title">${job.employer}</h3>
-            <h6 class="card-subtitle mb-2">${job.jobTitle}</h6>
-            <h6 class="card-subtitle mb-2">${job.location}</h6>
-            <p class="card-text">${job.desc}.</p>
-            <p class="card-text"><b>Skills:</b> ${job.skills}.</p>
-            <a href="${job.website}" class="btn btn-dark">Apply Now</a>
-            </div>
-        </div>
-        ` ).join("")}
-    </div>  
+      <div class="card mt-2 mb-2" style="width: 18rem;">
+          <div class="card-body">
+          <h3 class="card-title">${job.employer}</h3>
+          <h6 class="card-subtitle mb-2">${job.jobTitle}</h6>
+          <h6 class="card-subtitle mb-2">${job.location}</h6>
+          <p class="card-text">${job.desc}.</p>
+          <p class="card-text"><b>Skills:</b> ${job.skills}.</p>
+          <a href="${job.website}" class="btn btn-dark">Apply Now</a>
+          </div>
+      </div>
+    ` ).join("")}
+  </div>  
 
     <!-- Footer -->
-    <footer class="footer py-3 bg-dark fixed-bottom">
-      <div class="container text-center">
-        <span class="text-light">Skilled Tradesman - 2021</span>
-      </div>
-    </footer>
+    ${footer}
     <script src="/js/deletejob.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
